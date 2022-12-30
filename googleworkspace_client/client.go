@@ -3,20 +3,17 @@ package googleworkspace_client
 import (
 	"context"
 	"errors"
-	"github.com/selefra/selefra-provider-googleworkspace/constants"
 	"strings"
+
+	"github.com/selefra/selefra-provider-googleworkspace/constants"
 )
 
 type Client struct {
 	Config *Config
 }
 
-func NewClients(configs Configs) ([]*Client, error) {
-	var clients []*Client
-	for i := range configs.Providers {
-		clients = append(clients, &Client{Config: &configs.Providers[i]})
-	}
-	return clients, nil
+func NewClients(config Config) ([]*Client, error) {
+	return []*Client{&Client{Config: &config}}, nil
 }
 
 func IsCancelled(ctx context.Context) bool {

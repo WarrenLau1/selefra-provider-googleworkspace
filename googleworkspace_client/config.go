@@ -1,9 +1,5 @@
 package googleworkspace_client
 
-type Configs struct {
-	Providers []Config `yaml:"providers"  mapstructure:"providers"`
-}
-
 type Config struct {
 	CredentialFile        string `yaml:"credential_file"  mapstructure:"credential_file"`
 	Credentials           string `yaml:"credentials"  mapstructure:"credentials"`

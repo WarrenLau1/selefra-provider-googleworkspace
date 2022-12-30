@@ -20,13 +20,10 @@ func GetProvider() *provider.Provider {
 		TableList: GenTables(),
 		ClientMeta: schema.ClientMeta{
 			InitClient: func(ctx context.Context, clientMeta *schema.ClientMeta, config *viper.Viper) ([]any, *schema.Diagnostics) {
-				var googleworkspaceConfig googleworkspace_client.Configs
+				var googleworkspaceConfig googleworkspace_client.Config
 				err := config.Unmarshal(&googleworkspaceConfig)
 				if err != nil {
 					return nil, schema.NewDiagnostics().AddErrorMsg(constants.Analysisconfigerrs, err.Error())
-				}
-				if len(googleworkspaceConfig.Providers) == 0 {
-					googleworkspaceConfig.Providers = append(googleworkspaceConfig.Providers, googleworkspace_client.Config{})
 				}
 
 				clients, err := googleworkspace_client.NewClients(googleworkspaceConfig)
@@ -56,7 +53,7 @@ func GetProvider() *provider.Provider {
 #    token_path: # path to JSON credentials file`
 			},
 			Validation: func(ctx context.Context, config *viper.Viper) *schema.Diagnostics {
-				var googleworkspaceConfig googleworkspace_client.Configs
+				var googleworkspaceConfig googleworkspace_client.Config
 				err := config.Unmarshal(&googleworkspaceConfig)
 				if err != nil {
 					return schema.NewDiagnostics().AddErrorMsg(constants.Analysisconfigerrs, err.Error())
