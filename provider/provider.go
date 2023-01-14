@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"os"
 
 	"github.com/selefra/selefra-provider-sdk/provider"
 	"github.com/selefra/selefra-provider-sdk/provider/schema"
@@ -24,6 +25,30 @@ func GetProvider() *provider.Provider {
 				err := config.Unmarshal(&googleworkspaceConfig)
 				if err != nil {
 					return nil, schema.NewDiagnostics().AddErrorMsg(constants.Analysisconfigerrs, err.Error())
+				}
+
+				if googleworkspaceConfig.Credentials == "" {
+					googleworkspaceConfig.Credentials = os.Getenv("GOOGLE_WORKSPACE_CREDENTIALS")
+				}
+
+				if googleworkspaceConfig.Credentials == "" {
+					return nil, schema.NewDiagnostics().AddErrorMsg("missing Credentials in configuration")
+				}
+
+				if googleworkspaceConfig.ImpersonatedUserEmail == "" {
+					googleworkspaceConfig.ImpersonatedUserEmail = os.Getenv("GOOGLE_WORKSPACE_IMPERSONATED_USER_EMAIL")
+				}
+
+				if googleworkspaceConfig.ImpersonatedUserEmail == "" {
+					return nil, schema.NewDiagnostics().AddErrorMsg("missing ImpersonatedUserEmail in configuration")
+				}
+
+				if googleworkspaceConfig.TokenPath == "" {
+					googleworkspaceConfig.TokenPath = os.Getenv("GOOGLE_WORKSPACE_TOKEN_PATH")
+				}
+
+				if googleworkspaceConfig.TokenPath == "" {
+					return nil, schema.NewDiagnostics().AddErrorMsg("missing TokenPath in configuration")
 				}
 
 				clients, err := googleworkspace_client.NewClients(googleworkspaceConfig)
