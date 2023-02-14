@@ -59,11 +59,7 @@ func GetProvider() *provider.Provider {
 		},
 		ConfigMeta: provider.ConfigMeta{
 			GetDefaultConfigTemplate: func(ctx context.Context) string {
-				return `##  Optional, Repeated. Add an accounts block for every account you want to assume-role into and fetch data from.
-#accounts:
-#  - credentials: # The path to a JSON credential file that contains service account credentials.
-#    impersonated_user_email: # email address of the approved user
-#    token_path: # path to JSON credentials file`
+				return `# token_path: <Google Workspace Token Path>`
 			},
 			Validation: func(ctx context.Context, config *viper.Viper) *schema.Diagnostics {
 				var googleworkspaceConfig googleworkspace_client.Config
